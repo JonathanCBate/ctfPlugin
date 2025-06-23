@@ -12,7 +12,7 @@ import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 
 public class StartCommand implements CommandExecutor {
-
+    public static boolean pvp = false;
     private final JavaPlugin plugin;
 
     public StartCommand(JavaPlugin plugin) {
@@ -21,7 +21,6 @@ public class StartCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
         if (args.length != 0) {
             sender.sendMessage(ChatColor.RED + "Usage: /start");
             return false;
@@ -83,6 +82,8 @@ public class StartCommand implements CommandExecutor {
         // Compile teams
         TeamLogic teamLogic = new TeamLogic();
         teamLogic.teamCompile();
+
+        pvp = false;
 
         // The command was successful
         return true;
