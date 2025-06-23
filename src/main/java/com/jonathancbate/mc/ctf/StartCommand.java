@@ -45,6 +45,12 @@ public class StartCommand implements CommandExecutor {
                                 "",
                                 10, 20, 10
                         );
+                        player.playSound(
+                                player.getLocation(),
+                                Sound.BLOCK_NOTE_BLOCK_PLING,
+                                1.0f,
+                                1.0f
+                        );
                     }
                 } else if (step == 6) {
                     // Show "Go!" then stop
@@ -54,6 +60,13 @@ public class StartCommand implements CommandExecutor {
                                 "",
                                 10, 40, 10
                         );
+                        player.playSound(
+                                player.getLocation(),
+                                Sound.BLOCK_NOTE_BLOCK_PLING,
+                                1.0f,
+                                2.0f
+                        );
+                        buildTimer();
                     }
                     cancel();
                 }
@@ -64,4 +77,8 @@ public class StartCommand implements CommandExecutor {
 
         return true;
     }
+    private void buildTimer() {
+        Bukkit.broadcastMessage(ChatColor.YELLOW + "The build Phase will end in 30 minutes!");
+    }
 }
+
