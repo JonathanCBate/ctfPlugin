@@ -8,47 +8,59 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 
 public class StartCommand implements CommandExecutor {
 
     private final JavaPlugin plugin;
 
-    // Constructor to get plugin instance for scheduling
     public StartCommand(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        int countdown = 5;
 
         new BukkitRunnable() {
-            int secondsLeft = countdown;
+            int step = 0; // Step 0: "Starting in...", 1-5: countdown, 6: Go!
 
             @Override
             public void run() {
-                if (secondsLeft < 0) {
-                    // Countdown finished, cancel task
-                    cancel();
-                    // Optionally broadcast "Go!" or something else
+                if (step == 0) {
+                    // Show "Starting in..." for 1 second
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendTitle(ChatColor.GREEN + "Go!", "", 10, 70, 20);
+                        player.sendTitle(
+                                ChatColor.GOLD + "Starting in...",
+                                "",
+                                10, 10, 10
+                        );
                     }
-                    return;
+                } else if (step >= 1 && step <= 5) {
+                    // Countdown from 5 to 1
+                    int number = 6 - step;
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendTitle(
+                                ChatColor.RED + Integer.toString(number),
+                                "",
+                                10, 20, 10
+                        );
+                    }
+                } else if (step == 6) {
+                    // Show "Go!" then stop
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendTitle(
+                                ChatColor.GREEN + "Go!",
+                                "",
+                                10, 40, 10
+                        );
+                    }
+                    cancel();
                 }
 
-                // Broadcast countdown as a title to all players
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendTitle(
-                            ChatColor.RED + "Starting in",
-                            ChatColor.YELLOW + String.valueOf(secondsLeft),
-                            10, 20, 10
-                    );
-                }
-
-                secondsLeft--;
+                step++;
             }
-        }.runTaskTimer(plugin, 0L, 20L); // Run every 20 ticks (1 second)
+        }.runTaskTimer(plugin, 0L, 20L); // 20 ticks = 1 second
 
         return true;
     }
