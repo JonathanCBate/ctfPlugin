@@ -22,6 +22,11 @@ public class StartCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
+        if (args.length != 0) {
+            sender.sendMessage(ChatColor.RED + "Usage: /start");
+            return false;
+        }
+
         new BukkitRunnable() {
             int step = 0; // Step 0: "Starting in...", 1-5: countdown, 6: Go!
 
@@ -75,6 +80,11 @@ public class StartCommand implements CommandExecutor {
             }
         }.runTaskTimer(plugin, 0L, 20L); // 20 ticks = 1 second
 
+        // Compile teams
+        TeamLogic teamLogic = new TeamLogic();
+        teamLogic.teamCompile();
+
+        // The command was successful
         return true;
     }
     private void buildTimer() {
