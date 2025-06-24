@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.block.Block;
 import org.bukkit.Location;
@@ -69,20 +68,15 @@ public class TeamLogic implements Listener {
         for (Player recipient : Bukkit.getOnlinePlayers()) {
             String teamPrefix = "";
 
-            // Customize prefix based on recipient's team info
-            if (TeamLogic.redTeam.contains(sender) && TeamLogic.redTeam.contains(recipient)) {
+            if ((redTeam.contains(sender) && redTeam.contains(recipient)) ||
+                    (blueTeam.contains(sender) && blueTeam.contains(recipient))) {
                 teamPrefix = ChatColor.GREEN + "[Team] ";
-            }
-
-            // Check if both are on the blue team
-            else if (TeamLogic.blueTeam.contains(sender) && TeamLogic.blueTeam.contains(recipient)) {
-                teamPrefix = ChatColor.GREEN + "[Team] ";
-            }
-            else if (TeamLogic.redTeam.contains(sender) && !TeamLogic.blueTeam.contains(recipient)) {
+            } else if (redTeam.contains(sender)) {
                 teamPrefix = ChatColor.RED + "[Red] ";
-            } else if (TeamLogic.blueTeam.contains(sender) && !TeamLogic.redTeam.contains(recipient)) {
+            } else if (blueTeam.contains(sender)) {
                 teamPrefix = ChatColor.BLUE + "[Blue] ";
             }
+
 
             // You could add logic here so recipient sees different info
             recipient.sendMessage(teamPrefix + ChatColor.RESET + " " + sender.getName() + ": " + message);
