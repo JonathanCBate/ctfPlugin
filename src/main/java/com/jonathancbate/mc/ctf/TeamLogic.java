@@ -78,8 +78,13 @@ public class TeamLogic implements Listener {
             }
 
 
-            // You could add logic here so recipient sees different info
             recipient.sendMessage(teamPrefix + ChatColor.RESET + " " + sender.getName() + ": " + message);
         }
+    }
+    protected void teamReset(){
+        redTeam.clear();
+        blueTeam.clear();
+        redTeamLeader = null;
+        blueTeamLeader = null;
     }
 }
