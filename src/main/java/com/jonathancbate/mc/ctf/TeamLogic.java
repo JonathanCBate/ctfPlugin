@@ -78,7 +78,7 @@ public class TeamLogic implements Listener {
             }
 
 
-            recipient.sendMessage(teamPrefix + ChatColor.RESET + " " + sender.getName() + ": " + message);
+            recipient.sendMessage(sender.getName() + teamPrefix + ChatColor.RESET + ": " + message);
         }
     }
     protected void teamReset(){
