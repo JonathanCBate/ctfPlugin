@@ -6,7 +6,7 @@ public class CaptureTheFlag extends JavaPlugin {
     public void onEnable() {
         getLogger().info("The Capture The Flag plugin is enabled!");
         getCommand("start").setExecutor(new StartCommand(this));
-
+        getServer().getPluginManager().registerEvents(new TeamLogic(), this);
     }
     @Override
     public void onDisable() {
