@@ -50,14 +50,6 @@ public class TeamLogic implements Listener {
             }
         }
 
-        System.out.println("=== RED TEAM MEMBERS ===");
-        for (String name : redTeam) {
-            System.out.println(name);
-        }
-        System.out.println("=== BLUE TEAM MEMBERS ===");
-        for (String name : blueTeam) {
-            System.out.println(name);
-        }
     }
 
 
@@ -83,7 +75,7 @@ public class TeamLogic implements Listener {
         String senderName = sender.getName();
         String message = event.getMessage();
 
-        event.setCancelled(true); // Cancel default broadcast
+        event.setCancelled(true);
 
         for (Player recipient : Bukkit.getOnlinePlayers()) {
             String recipientName = recipient.getName();
@@ -98,26 +90,23 @@ public class TeamLogic implements Listener {
             boolean senderIsRedLeader = senderName.equals(redTeamLeader);
             boolean senderIsBlueLeader = senderName.equals(blueTeamLeader);
 
-            // Check if sender and recipient are on the same team
             if ((senderOnRed && recipientOnRed) || (senderOnBlue && recipientOnBlue)) {
-                teamPrefix = ChatColor.GREEN + "[Team] ";
+                // Same team: show leader if sender is leader
+                if ((senderOnRed && senderIsRedLeader) || (senderOnBlue && senderIsBlueLeader)) {
+                    teamPrefix = ChatColor.YELLOW + "[Leader] ";
+                } else {
+                    teamPrefix = ChatColor.GREEN + "[Team] ";
+                }
             } else if (senderOnRed) {
-                if (senderIsRedLeader) {
-                    teamPrefix = ChatColor.YELLOW + "[Red Leader] ";
-                } else {
-                    teamPrefix = ChatColor.RED + "[Red] ";
-                }
+                teamPrefix = ChatColor.RED + "[Red] ";
             } else if (senderOnBlue) {
-                if (senderIsBlueLeader) {
-                    teamPrefix = ChatColor.YELLOW + "[Blue Leader] ";
-                } else {
-                    teamPrefix = ChatColor.BLUE + "[Blue] ";
-                }
+                teamPrefix = ChatColor.BLUE + "[Blue] ";
             }
 
             recipient.sendMessage(teamPrefix + senderName + ChatColor.RESET + ": " + message);
         }
     }
+
 
 
 

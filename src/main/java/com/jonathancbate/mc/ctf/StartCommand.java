@@ -177,6 +177,7 @@ public class StartCommand implements CommandExecutor {
                             player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 1.0f);
                         }
                         pvp = true;
+                        pvpLogic();
                         onEnd.run(); // Call the end logic
                         cancel();
                         return;
@@ -209,6 +210,10 @@ public class StartCommand implements CommandExecutor {
                     break;
             }
         }
+    }
+    private void pvpLogic() {
+        int pvpTime = 0; // Start counting up from 0
+
     }
 }
 
