@@ -17,6 +17,11 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.minecart.StorageMinecart;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.enchantments.Enchantment;
 
 import java.util.Random;
 
@@ -78,6 +83,117 @@ public class CrateLogic {
             }
         }
         return null;  // Failed to find safe location
+    }
+
+
+
+
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length != 0) {
+            sender.sendMessage(ChatColor.RED + "Usage: /crate");
+            return false;
+        }
+        else {
+            World world = Bukkit.getWorld("world");
+            if (world == null) {
+                Bukkit.getLogger().warning("World 'world' not found!");
+                return false;
+            }
+            Location location = getSafeRandomLocation(world, 0, 0, 0);
+            return true;
+        }
+    }
+
+    public ItemStack itemFromString() {
+        Random random = new Random();
+        int roll = random.nextInt(100) + 1;  // 1 to 100
+
+        if (roll <= 5) {
+            // 5% chance
+            return new ItemStack(Material.NETHERITE_INGOT, 1);
+        } else if (roll <= 10) {
+            // next 5% (5% + 5%)
+            return new ItemStack(Material.NETHERITE_UPGRADE_SMITHING_TEMPLATE, 1);
+        } else if (roll <= 20) {
+            // next 10%
+            return new ItemStack(Material.DIAMOND, random.nextInt(54) + 10);
+        } else if (roll <= 25) {
+            // next 5%
+            return new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, random.nextInt(20)+ 5);
+        } else if (roll <= 30) {
+            randomNetheriteItem();
+        } else {
+            return new ItemStack(Material.GOLD_INGOT, random.nextInt(54) + 10);
+        }
+        // Default case, should never happen
+        return new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+    }
+    public ItemStack randomNetheriteItem() {
+        Material[] netheriteItems = {
+                Material.NETHERITE_SWORD,
+                Material.NETHERITE_AXE,
+                Material.NETHERITE_PICKAXE,
+                Material.NETHERITE_HELMET,
+                Material.NETHERITE_CHESTPLATE,
+                Material.NETHERITE_LEGGINGS,
+                Material.NETHERITE_BOOTS
+        };
+
+        int index = random.nextInt(netheriteItems.length);
+        Material mat = netheriteItems[index];
+        ItemStack item = new ItemStack(mat, 1);
+
+        // Add specific enchants
+        switch (mat) {
+            case NETHERITE_SWORD:
+                item.addEnchantment(Enchantment.SHARPNESS, 5);
+                item.addEnchantment(Enchantment.UNBREAKING, 3);
+                item.addEnchantment(Enchantment.LOOTING, 3);
+                item.addEnchantment(Enchantment.FIRE_ASPECT, 2);
+                item.addEnchantment(Enchantment.MENDING, 1);
+                break;
+            case NETHERITE_AXE:
+                item.addEnchantment(Enchantment.SHARPNESS, 5);
+                item.addEnchantment(Enchantment.EFFICIENCY, 5);
+                item.addEnchantment(Enchantment.UNBREAKING, 3);
+                item.addEnchantment(Enchantment.FORTUNE, 3);
+                item.addEnchantment(Enchantment.SILK_TOUCH, 1);
+                item.addEnchantment(Enchantment.MENDING, 1);
+                break;
+            case NETHERITE_PICKAXE:
+                item.addEnchantment(Enchantment.EFFICIENCY, 5);
+                item.addEnchantment(Enchantment.FORTUNE, 3);
+                item.addEnchantment(Enchantment.MENDING, 1);
+                item.addEnchantment(Enchantment.UNBREAKING, 3);
+                break;
+            case NETHERITE_HELMET:
+                item.addEnchantment(Enchantment.PROTECTION, 4);
+                item.addEnchantment(Enchantment.UNBREAKING, 3);
+                item.addEnchantment(Enchantment.AQUA_AFFINITY, 1);
+                item.addEnchantment(Enchantment.RESPIRATION, 3);
+                break;
+            case NETHERITE_CHESTPLATE:
+                item.addEnchantment(Enchantment.PROTECTION, 4);
+                item.addEnchantment(Enchantment.UNBREAKING, 3);
+                item.addEnchantment(Enchantment.MENDING, 1);
+                break;
+            case NETHERITE_LEGGINGS:
+                item.addEnchantment(Enchantment.PROTECTION, 4);
+                item.addEnchantment(Enchantment.UNBREAKING, 3);
+                item.addEnchantment(Enchantment.MENDING, 1);
+                item.addEnchantment(Enchantment.SWIFT_SNEAK, 3);
+                break;
+            case NETHERITE_BOOTS:
+                item.addEnchantment(Enchantment.PROTECTION, 4);
+                item.addEnchantment(Enchantment.UNBREAKING, 3);
+                item.addEnchantment(Enchantment.DEPTH_STRIDER, 3);
+                item.addEnchantment(Enchantment.SOUL_SPEED, 3);
+                item.addEnchantment(Enchantment.MENDING, 1);
+                item.addEnchantment(Enchantment.FEATHER_FALLING, 4);
+                break;
+        }
+
+        return item;
     }
 
 
