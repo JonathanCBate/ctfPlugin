@@ -121,9 +121,43 @@ public class CrateLogic {
             // next 5%
             return new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, random.nextInt(20)+ 5);
         } else if (roll <= 30) {
-            randomNetheriteItem();
-        } else {
-            return new ItemStack(Material.GOLD_INGOT, random.nextInt(54) + 10);
+           return randomNetheriteItem();
+        } else if(roll <= 35) {
+            ItemStack mace = new ItemStack(Material.MACE, 1);
+            mace.addEnchantment(Enchantment.BREACH , 5);
+            mace.addEnchantment(Enchantment.UNBREAKING, 3);
+            mace.addEnchantment(Enchantment.WIND_BURST, 3);
+            mace.addEnchantment(Enchantment.MENDING, 1);
+            return mace;
+        } else if (roll <= 50) {
+            return new ItemStack (Material.WIND_CHARGE, 64);
+        } else if (roll <= 55) {
+           return new ItemStack(Material.ENDER_PEARL, 16);
+        } else if (roll <= 60) {
+            ItemStack bow = new ItemStack(Material.BOW, 1);
+            bow.addEnchantment(Enchantment.POWER, 5);
+            bow.addEnchantment(Enchantment.PUNCH, 2);
+            bow.addEnchantment(Enchantment.UNBREAKING, 3);
+            bow.addEnchantment(Enchantment.MENDING, 1);
+        } else if (roll <= 65) {
+            return new ItemStack(Material.ARROW, 64);
+        } else if (roll <= 70) {
+           return new ItemStack(Material.OBSIDIAN, 64);
+        } else if (roll <= 75) {
+            return new ItemStack(Material.END_CRYSTAL, 64);
+        } else if (roll <= 80) {
+            return new ItemStack(Material.TOTEM_OF_UNDYING);
+        } else if (roll <= 85) {
+            return new ItemStack (Material.RESPAWN_ANCHOR,64);
+        } else if (roll <= 90) {
+            return new ItemStack (Material.GLOWSTONE);
+        } else if (roll <= 95) {
+            return new ItemStack (Material.GOLDEN_CARROT, 64);
+        } else if (roll <= 99) {
+            return randomWildcardItem();
+        }
+        else {
+            return randomLegendaryItem();
         }
         // Default case, should never happen
         return new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
