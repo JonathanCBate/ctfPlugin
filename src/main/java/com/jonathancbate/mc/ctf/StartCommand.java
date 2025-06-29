@@ -79,8 +79,8 @@ public class StartCommand implements CommandExecutor {
                         buildTimer(plugin, () -> {}, () -> {});
                         // Compile teams
                         TeamLogic teamLogic = new TeamLogic();
-                        teamLogic.teamCompile();
                         teamLogic.teamReset();
+                        teamLogic.teamCompile();
 
                         pvp = false;
                     }
