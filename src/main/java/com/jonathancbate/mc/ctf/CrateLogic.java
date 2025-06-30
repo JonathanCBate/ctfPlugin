@@ -104,7 +104,7 @@ public class CrateLogic {
         }
     }
 
-    public ItemStack itemFromString() {
+    public ItemStack randomLootPicker() {
         Random random = new Random();
         int roll = random.nextInt(100) + 1;  // 1 to 100
 
@@ -139,6 +139,7 @@ public class CrateLogic {
             bow.addEnchantment(Enchantment.PUNCH, 2);
             bow.addEnchantment(Enchantment.UNBREAKING, 3);
             bow.addEnchantment(Enchantment.MENDING, 1);
+            return bow;
         } else if (roll <= 65) {
             return new ItemStack(Material.ARROW, 64);
         } else if (roll <= 70) {
@@ -228,6 +229,12 @@ public class CrateLogic {
         }
 
         return item;
+    }
+    public ItemStack randomWildcardItem() {
+        
+    }
+    public ItemStack randomLegendaryItem() {
+
     }
 
 
